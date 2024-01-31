@@ -1,0 +1,3 @@
+admin;password
+Anzor;123
+Nina;123

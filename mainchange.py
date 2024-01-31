@@ -189,17 +189,16 @@ def display_tasks(user_tasks):
         disp_str += f"\t\tDate Assigned: \t {t['assigned_date'].strftime(DATETIME_STRING_FORMAT)}\n"
         disp_str += f"\t\tDue Date: \t {t['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
         disp_str += f"\t\tDescription: {t['description']}\n"
-        completion_status = "✅ Completed" if t['completed'] == 'Yes' else "❗️ Pending"
+        completion_status = "✅ Completed" if t['completed'] else "❗️ Pending"  # Updated this line
         disp_str += f"\n\t\tStatus: \t {completion_status}\n"
         disp_str += f"\t\t{border}\n"
 
-    
         print(disp_str)
 
 def view_mine():
     user_tasks = [t for t in task_list if t['username'] == curr_user]
 
-    display_tasks(user_tasks) # 
+    display_tasks(user_tasks) #
 
     while True:
         if logged_in and curr_user:
@@ -239,6 +238,7 @@ def view_mine():
 
                     if operation == 'c':
                         selected_task['completed'] = True
+                        save_tasks_to_file(task_list)  # Pass the entire task_list
                         print()
                         print(f"\t{borderXL}")
                         print("\t\t✅ Task marked as completed.")
@@ -248,19 +248,18 @@ def view_mine():
                         # Placeholder code for editing the task
                         update_task(selected_task)
                     elif operation == 'd':
-                        # Placeholder code for deleting the task
-                        print("\t\t❌ Deleting task...")
+                        delete_task(task_list, selected_task)
                     else:
                         print("\nSorry but this option does not exist.")
                 else:
-                    print("\t\t❌ Sorry but this number does not exist.")
-                    print("\t\t❌ Please enter a correct number.")
+                    print("\t\t❌ Sorry but this task does not exist.")
+                    print("\t\t❌ Please enter a correct task number.")
                     print(f"\t\t{border}")
             except ValueError:
                 print("\t\t❌ Invalid input. Please enter a valid number.")
                 print(f"\t\t{border}")
         else:
-            print("\nSorry but this option does not exist.")
+            print("\n❌ Sorry but this option does not exist.")
 
 
 
@@ -278,9 +277,6 @@ def save_tasks_to_file(tasks):
             ]
             task_list_to_write.append(";".join(str_attrs))
         task_file.write("\n".join(task_list_to_write))
-
-
-
 
 
 def update_task(selected_task):
@@ -308,16 +304,9 @@ def update_task(selected_task):
         print("\t\t❌ Invalid input. Please enter a valid value.")
 
 
-def delete_task():
-    while True:
-        try:
-            task_num = int(input("Enter the number of the task to delete: "))
-            deleted_task = task_list.pop(task_num - 1)
-        except (ValueError, IndexError):
-            print("Invalid task number. Please enter a valid number.")
-            return
-
-        print(f"Task {task_num} deleted successfully.")
+def delete_task(task_list, selected_task):
+    try:
+        deleted_task = task_list.remove(selected_task)
         with open("tasks.txt", "w") as task_file:
             task_list_to_write = []
             for t in task_list:
@@ -331,6 +320,13 @@ def delete_task():
                 ]
                 task_list_to_write.append(";".join(str_attrs))
             task_file.write("\n".join(task_list_to_write))
+            print("❌ DELETED")
+        return True
+    except ValueError:
+        print("Task not found or deletion failed.")
+        return False
+
+
 
 def generate_reports():
     total_tasks = len(task_list)
@@ -349,22 +345,22 @@ def generate_reports():
     print("\t\t   This report is now available under Display Statistics - 'ds'")
     print(f"\t\t{border}")
     print(f'''
-                USER OVERVIEW:
+                        📉 USER OVERVIEW:
                 {border}
-                 Total Users: \t\t{len(unique_usernames)}''')
+                📙 Total Users: \t\t{len(unique_usernames)}''')
     for username in unique_usernames:
         tasks_count = len([task for task in task_list if task['username'] == username])
-        print(f"\t\t {username} tasks:\t{tasks_count}")
+        print(f"\t\t🧸 {username} tasks:\t{tasks_count}")
 
     print(f'''\n
-                TASK OVERVIEW:
+                        📈 TASK OVERVIEW:
                 {border}
-                 Total Tasks:\t\t\t{total_tasks}
-                 Completed Tasks:\t\t{completed_tasks}
-                 Uncompleted Tasks:\t\t{uncompleted_tasks}
-                 Overdue Tasks:\t\t\t{overdue_tasks}
-                 Incomplete Percentage:\t\t{incomplete_percentage:.2f}%
-                 Overdue Percentage:\t\t{overdue_percentage:.2f}%
+                ✅  Total Tasks:\t\t\t{total_tasks}
+                ✅  Completed Tasks:\t\t{completed_tasks}
+                ❌ Uncompleted Tasks:\t\t{uncompleted_tasks}
+                ❌ Overdue Tasks:\t\t\t{overdue_tasks}
+                ❌ Incomplete Percentage:\t\t{incomplete_percentage:.2f}%
+                ❌ Overdue Percentage:\t\t{overdue_percentage:.2f}%
     ''')
 
     # Write to user_overview.txt
