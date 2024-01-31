@@ -248,20 +248,18 @@ def view_mine():
                         # Placeholder code for editing the task
                         update_task(selected_task)
                     elif operation == 'd':
-                        # Placeholder code for deleting the task
-                        print("\t\t❌ Deleting task...")
+                        delete_task(task_list, selected_task)
                     else:
                         print("\nSorry but this option does not exist.")
                 else:
-                    print("\t\t❌ Sorry but this number does not exist.")
-                    print("\t\t❌ Please enter a correct number.")
+                    print("\t\t❌ Sorry but this task does not exist.")
+                    print("\t\t❌ Please enter a correct task number.")
                     print(f"\t\t{border}")
             except ValueError:
                 print("\t\t❌ Invalid input. Please enter a valid number.")
                 print(f"\t\t{border}")
         else:
-            print("\nSorry but this option does not exist.")
-
+            print("\n❌ Sorry but this option does not exist.")
 
 
 
@@ -279,9 +277,6 @@ def save_tasks_to_file(tasks):
             ]
             task_list_to_write.append(";".join(str_attrs))
         task_file.write("\n".join(task_list_to_write))
-
-
-
 
 
 def update_task(selected_task):
@@ -309,16 +304,9 @@ def update_task(selected_task):
         print("\t\t❌ Invalid input. Please enter a valid value.")
 
 
-def delete_task():
-    while True:
-        try:
-            task_num = int(input("Enter the number of the task to delete: "))
-            deleted_task = task_list.pop(task_num - 1)
-        except (ValueError, IndexError):
-            print("Invalid task number. Please enter a valid number.")
-            return
-
-        print(f"Task {task_num} deleted successfully.")
+def delete_task(task_list, selected_task):
+    try:
+        deleted_task = task_list.remove(selected_task)
         with open("tasks.txt", "w") as task_file:
             task_list_to_write = []
             for t in task_list:
@@ -332,6 +320,13 @@ def delete_task():
                 ]
                 task_list_to_write.append(";".join(str_attrs))
             task_file.write("\n".join(task_list_to_write))
+            print("❌ DELETED")
+        return True
+    except ValueError:
+        print("Task not found or deletion failed.")
+        return False
+
+
 
 def generate_reports():
     total_tasks = len(task_list)
