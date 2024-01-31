@@ -189,17 +189,16 @@ def display_tasks(user_tasks):
         disp_str += f"\t\tDate Assigned: \t {t['assigned_date'].strftime(DATETIME_STRING_FORMAT)}\n"
         disp_str += f"\t\tDue Date: \t {t['due_date'].strftime(DATETIME_STRING_FORMAT)}\n"
         disp_str += f"\t\tDescription: {t['description']}\n"
-        completion_status = "✅ Completed" if t['completed'] == 'Yes' else "❗️ Pending"
+        completion_status = "✅ Completed" if t['completed'] else "❗️ Pending"  # Updated this line
         disp_str += f"\n\t\tStatus: \t {completion_status}\n"
         disp_str += f"\t\t{border}\n"
 
-    
         print(disp_str)
 
 def view_mine():
     user_tasks = [t for t in task_list if t['username'] == curr_user]
 
-    display_tasks(user_tasks) # 
+    display_tasks(user_tasks) #
 
     while True:
         if logged_in and curr_user:
@@ -239,6 +238,7 @@ def view_mine():
 
                     if operation == 'c':
                         selected_task['completed'] = True
+                        save_tasks_to_file(task_list)  # Pass the entire task_list
                         print()
                         print(f"\t{borderXL}")
                         print("\t\t✅ Task marked as completed.")
@@ -261,6 +261,7 @@ def view_mine():
                 print(f"\t\t{border}")
         else:
             print("\nSorry but this option does not exist.")
+
 
 
 
@@ -349,22 +350,22 @@ def generate_reports():
     print("\t\t   This report is now available under Display Statistics - 'ds'")
     print(f"\t\t{border}")
     print(f'''
-                USER OVERVIEW:
+                        📉 USER OVERVIEW:
                 {border}
-                 Total Users: \t\t{len(unique_usernames)}''')
+                📙 Total Users: \t\t{len(unique_usernames)}''')
     for username in unique_usernames:
         tasks_count = len([task for task in task_list if task['username'] == username])
-        print(f"\t\t {username} tasks:\t{tasks_count}")
+        print(f"\t\t🧸 {username} tasks:\t{tasks_count}")
 
     print(f'''\n
-                TASK OVERVIEW:
+                        📈 TASK OVERVIEW:
                 {border}
-                 Total Tasks:\t\t\t{total_tasks}
-                 Completed Tasks:\t\t{completed_tasks}
-                 Uncompleted Tasks:\t\t{uncompleted_tasks}
-                 Overdue Tasks:\t\t\t{overdue_tasks}
-                 Incomplete Percentage:\t\t{incomplete_percentage:.2f}%
-                 Overdue Percentage:\t\t{overdue_percentage:.2f}%
+                ✅  Total Tasks:\t\t\t{total_tasks}
+                ✅  Completed Tasks:\t\t{completed_tasks}
+                ❌ Uncompleted Tasks:\t\t{uncompleted_tasks}
+                ❌ Overdue Tasks:\t\t\t{overdue_tasks}
+                ❌ Incomplete Percentage:\t\t{incomplete_percentage:.2f}%
+                ❌ Overdue Percentage:\t\t{overdue_percentage:.2f}%
     ''')
 
     # Write to user_overview.txt
