@@ -202,6 +202,7 @@ def view_mine():
 
     while True:
         if logged_in and curr_user:
+            print(f"\t\t{border}")
             print("\t\t🟢 Enter the number of the task to select")
             selected_task_number = input("\t\t  (or -1 to return to the main menu): ")
             print(f"\t\t{border}")
@@ -223,38 +224,48 @@ def view_mine():
                     print(f"Completed: \t { 'Completed' if selected_task['completed'] else 'Pending' }")
                     print(border)
 
-                    operation = input(f'''
-            {border}
-                    TASK VIEW MENU
-            Select one of the following Options below:
-            {border}
-            ✅ c -  Mark the task as completed
-            🖌  e -  Edit the task
-            ❌ d -  Delete the task
+                    while True:
+                        operation = input(f'''
+                {border}
+                        TASK VIEW MENU
+                Select one of the following Options below:
+                {border}
+                ✅ c -    Mark the task as completed
+                🖌  e -    Edit the task
+                ❌ d -    Delete the task
+                📤 s -    Select another task
 
-            Or press 'Enter' to return to "View my tasks"
-            {border}
-            : ''').lower()
+                Or press 'Enter' to return to "View my tasks"
+                {border}
+                : ''').lower()
 
-                    if operation == 'c':
-                        selected_task['completed'] = True
-                        save_tasks_to_file(task_list)  # Pass the entire task_list
-                        print()
-                        print(f"\t{borderXL}")
-                        print("\t\t✅ Task marked as completed.")
-                        print(f"\t{borderXL}")
-                        break
-                    elif operation == 'e' and not selected_task.get('completed', False):
-                        # Placeholder code for editing the task
-                        update_task(selected_task)
-                    elif operation == 'd':
-                        delete_task(task_list, selected_task)
-                    else:
-                        print("\nSorry but this option does not exist.")
+                        if operation == 'c':
+                            selected_task['completed'] = True
+                            save_tasks_to_file(task_list)  # Pass the entire task_list
+                            print()
+                            print(f"\t{borderXL}")
+                            print("\t\t✅ Task marked as completed.")
+                            print(f"\t{borderXL}")
+                            break
+                        elif operation == 'e' and not selected_task.get('completed', False):
+                            # Placeholder code for editing the task
+                            update_task(selected_task)
+                        elif operation == 'd':
+                            delete_task(task_list, selected_task)
+                            break
+                        elif operation == 's':
+                            break
+                        else:
+                            print("\n\t\t❌ Sorry but this option does not exist.")
+                            # After printing the message, continue to the next iteration
+                            
                 else:
                     print("\t\t❌ Sorry but this task does not exist.")
                     print("\t\t❌ Please enter a correct task number.")
                     print(f"\t\t{border}")
+                    # After printing the message, continue to the next iteration
+                    continue
+
             except ValueError:
                 print("\t\t❌ Invalid input. Please enter a valid number.")
                 print(f"\t\t{border}")
@@ -281,27 +292,53 @@ def save_tasks_to_file(tasks):
 
 def update_task(selected_task):
     try:
+        print(f"\t\t{border}")
         new_title = input(f"\t\tEnter a new title for the task: ")
         selected_task['title'] = new_title
 
+        print(f"\t\t{border}")
         update_due_date = input("\t\tDo you want to update the due date? (y/n): ").lower()
+        
 
         if update_due_date == 'y':
-            new_due_date_str = input("\t\tEnter a new Due Date (YYYY-MM-DD): ")
-            new_due_date = datetime.strptime(new_due_date_str, DATETIME_STRING_FORMAT)
-            selected_task['due_date'] = new_due_date
+            while True:
+                print(f"\t\t{border}")
+                new_due_date_str = input("\t\tEnter a new Due Date (YYYY-MM-DD): ")
+                
+
+                try:
+                    new_due_date = datetime.strptime(new_due_date_str, DATETIME_STRING_FORMAT)
+                    selected_task['due_date'] = new_due_date
+                    break  # Exit the loop if the date is entered correctly
+
+                except ValueError:
+                    print(f"\t\t{border}")
+                    print("\t\t❌ Invalid date format. Please enter correct Due Date.")
+                    
+
+        elif update_due_date == 'n':
+            pass  # Exit the loop if the user chooses not to update the date
+
+        else:
+            print(f"\t\t{border}")
+            print("\t\t❌ Invalid input. Please enter 'y' or 'n'.")
+            
 
         # Update the completion status
+        print(f"\t\t{border}")
         mark_completed = input("\t\tMark the task as completed? (y/n): ").lower()
         selected_task['completed'] = mark_completed == 'y' or mark_completed == 'yes'
 
         # Save the updated task_list to the file
         save_tasks_to_file(task_list)
 
+        print(f"\t\t{border}\n")
         print("\t\t✅ Your task updated successfully.")
 
     except ValueError:
+        print(f"\t\t{border}")
         print("\t\t❌ Invalid input. Please enter a valid value.")
+
 
 
 def delete_task(task_list, selected_task):
@@ -347,7 +384,7 @@ def generate_reports():
     print(f'''
                         📉 USER OVERVIEW:
                 {border}
-                📙 Total Users: \t\t{len(unique_usernames)}''')
+                📙 Total Users:\t{len(unique_usernames)}''')
     for username in unique_usernames:
         tasks_count = len([task for task in task_list if task['username'] == username])
         print(f"\t\t🧸 {username} tasks:\t{tasks_count}")
@@ -355,11 +392,11 @@ def generate_reports():
     print(f'''\n
                         📈 TASK OVERVIEW:
                 {border}
-                ✅  Total Tasks:\t\t\t{total_tasks}
+                ✅  Total Tasks:\t\t{total_tasks}
                 ✅  Completed Tasks:\t\t{completed_tasks}
                 ❌ Uncompleted Tasks:\t\t{uncompleted_tasks}
-                ❌ Overdue Tasks:\t\t\t{overdue_tasks}
-                ❌ Incomplete Percentage:\t\t{incomplete_percentage:.2f}%
+                ❌ Overdue Tasks:\t\t{overdue_tasks}
+                ❌ Incomplete Percentage:\t{incomplete_percentage:.2f}%
                 ❌ Overdue Percentage:\t\t{overdue_percentage:.2f}%
     ''')
 
