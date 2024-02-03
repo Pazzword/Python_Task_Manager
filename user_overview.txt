@@ -1,8 +1,6 @@
-	------------------------------------------------------------
 			📉 User Overview
 
 		📙 Total Users:	2
-		📗 Tasks per User:
-			🧸 Anzor:	1 tasks
-			🧸 admin:	2 tasks
-	------------------------------------------------------------
+		📗Tasks per User:
+			🎎 Anzor:	2 tasks
+			🎎 admin:	3 tasks
