@@ -1,8 +1,0 @@
-			📈 Task Overview
-
-		✅ Total Tasks: 5
-		✅ Completed Tasks: 2
-		❌ Uncompleted Tasks: 3
-		❌ Overdue Tasks: 0
-		❌ Incomplete Percentage: 60.00%
-		❌ Overdue Percentage: 0.00%
