@@ -6,7 +6,6 @@
 # program will look in your root directory for the text files.
 
 #=====importing libraries===========
-import os
 import source
 
 borderXS = "-" * 40
@@ -15,7 +14,7 @@ borderXL = "-" * 68
 
 
 # Create tasks.txt if it doesn't exist
-if not os.path.exists("tasks.txt"):
+if not source.os.path.exists("tasks.txt"):
     with open("tasks.txt", "w") as default_file:
         pass
 
@@ -45,13 +44,14 @@ for t_str in task_data:
     allow a user to login.
 '''
 # If no user.txt file, write one with a default account
-if not os.path.exists("user.txt"):
+if not source.os.path.exists("user.txt"):
     with open("user.txt", "w") as default_file:
         default_file.write("admin;password")
 
 # Read in user_data
 with open("user.txt", 'r') as user_file:
     user_data = user_file.read().split("\n")
+
 
 # Convert to a dictionary
 username_password = {}
@@ -81,24 +81,6 @@ while not logged_in:
     else:
         print("✅ Login Successful!")
         logged_in = True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 while True:   
     if logged_in:
@@ -144,10 +126,10 @@ while True:
             source.view_mine(task_list, curr_user, logged_in)
 
         elif menu == 'gr' and curr_user == admin_user:
-            source.generate_reports(task_list)
+            source.generate_reports(task_list, username_password)
 
         elif menu == 'ds' and curr_user == admin_user:
-            source.display_statistics(curr_user, admin_user, task_list)
+            source.display_statistics(curr_user, admin_user)
                     
         elif menu == 'ds' and curr_user: 
             print(f"\t{borderXL}")
