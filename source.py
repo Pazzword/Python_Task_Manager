@@ -92,7 +92,6 @@ def add_task(username_password, task_list):
         print("\t\t✅ Task successfully added.")
         print(f"\t{borderXL}")
 
-
 def view_all(task_list):
         for t in task_list:
             
@@ -104,7 +103,6 @@ def view_all(task_list):
             disp_str += f"\t\tStatus: \t{'✅ Completed' if t['completed'] else '❗️ Pending'}\n"
             print(f"\t{borderXL}")
             print(f"\t\t{disp_str}")
-
 
 def display_tasks(user_tasks):
     for i, t in enumerate(user_tasks, start=1):
@@ -120,7 +118,6 @@ def display_tasks(user_tasks):
         disp_str += f"\t{borderXL}\n"
 
         print(disp_str)
-
 
 def view_mine(task_list, curr_user, logged_in):
     user_tasks = [t for t in task_list if t['username'] == curr_user]
@@ -198,10 +195,6 @@ def view_mine(task_list, curr_user, logged_in):
                 print("\t\t❌ Incorrect input. Please enter a valid number.")
                 print(f"\t{borderXL}")
 
-
-
-
-
 def save_tasks_to_file(tasks):
     with open("tasks.txt", "w") as task_file:
         task_list_to_write = []
@@ -216,8 +209,6 @@ def save_tasks_to_file(tasks):
             ]
             task_list_to_write.append(";".join(str_attrs))
         task_file.write("\n".join(task_list_to_write))
-
-
 
 def update_task(selected_task, task_list):
     try:
@@ -291,9 +282,6 @@ def delete_task(task_list, selected_task):
         print("Task not found or deletion failed.")
         return False
     
-
-
-
 def generate_reports(task_list):
     total_tasks = len(task_list)
     completed_tasks = sum(1 for task in task_list if task.get('completed', False))
