@@ -1,3 +1,7 @@
 admin;password
 Anzor;123
 Nina;123
+Sprinkle;123
+POPO;123
+333;123
+Rona;123
