@@ -1,8 +1,3 @@
-#----------------------------------------------------------------------------
-# <<<Capstone Project 17: Task Manager SOURCE file >>>
-#----------------------------------------------------------------------------
-
-
 #===Importing necessary libraries===
 import os
 from datetime import datetime, date
