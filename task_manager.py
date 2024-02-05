@@ -5,9 +5,6 @@
 # 2. Ensure you open the whole folder for this task in VS Code otherwise the 
 # program will look in your root directory for the text files.
 
-#----------------------------------------------------------------------------
-# <<<Capstone Project 17: Task Manager MAIN file >>>
-#----------------------------------------------------------------------------
 
 #=====importing libraries===========
 import source
