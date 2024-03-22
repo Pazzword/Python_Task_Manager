@@ -1,74 +1,64 @@
-# Task Manager Application
+# Anzor's Telegram Bot
 
-## Overview
+An interactive Telegram bot built using Python, Telebot, and PyTube to download YouTube videos based on user-provided links.
 
-This Task Manager application allows users to register, log in, add tasks, view tasks, and perform various administrative functions. The application is designed with a command-line interface and utilizes a file-based system for storing user data and task information.
 
-## Usage Instructions
+## Features
 
-1. Ensure that you open both 'python' files in the same folder in VS Code.
+- Downloads YouTube videos when users provide valid video links.
+- Sends downloaded videos back to users in Telegram chat.
+- Automatically sends an introductory message when users start a chat with the bot.
+  
 
-2. To access admin rights, use the following credentials:
-   - Username: admin
-   - Password: password
+## Installation
 
-3. Text files will be automatically created when the user runs the code.
+In order to use this code you will need to create a new telegram bot model using @BotFather. 
 
-## File Structure
+Find @BotFather in your Telegram and type /newbot - follow the simple instructions. 
 
-- **`task_manager.py`**: The main file containing the application code.
-- **`source.py`**: A module containing functions for user registration, task management, and report generation.
 
-## Automatically created files
+To run this bot locally, follow these steps:
 
-- **`tasks.txt`**: Text file storing task data.
-- **`user.txt`**: Text file storing user credentials.
+1. **Clone the repository:** `git clone https://github.com/your-username/anzor-telegram-bot.git`
 
-## Constants
+2. **Create a `.env` file** in the root directory and add your Telegram Bot token:
 
-- **`borderXS`**: Small horizontal line separator of 40 characters.
-- **`border`**: Medium horizontal line separator of 60 characters.
-- **`borderXL`**: Large horizontal line separator of 68 characters.
+     BOT_TOKEN=your_telegram_bot_token
 
-## Task Data Initialization
+3. **Run the bot:** `python3 bot.py`
 
-1. If `tasks.txt` does not exist, it is created with a default structure.
-2. Task data is read from `tasks.txt`, and a list of task dictionaries (`task_list`) is created.
 
-## User Data Initialization
+## Usage
 
-1. If `user.txt` does not exist, it is created with a default admin account.
-2. User data is read from `user.txt`, and a dictionary (`username_password`) is created to store user credentials.
+1. Start downloading with the bot by searching for it on Telegram as "AnzDev" and clicking "Start" or
+   create your own using Installation section above.
 
-## Login Section
+3. Send a YouTube video link in the chat.
 
-- Users are prompted to enter their username and password.
-- Admin credentials are predefined (admin:password).
-- The login process continues until successful authentication.
+4. The bot will download the video and send it back to you in the chat.
+   
 
-## Main Menu Section
+## Commands
 
-- The main menu is displayed based on user roles (admin or regular user).
-- Users can choose from various options, each corresponding to specific actions in the application.
+- **/start**: Start the bot and receive an introductory message.
+- **/hello**: Get a greeting message from the bot.
+  
 
-## Menu Options
+## Dependencies
 
-1. **Register User (`r`)**: Allows user registration. Admin-only option.
+The bot uses the following APIs and libraries:
 
-2. **Add Task (`a`)**: Allows users to add tasks.
+- **Telebot**: A Python library for building Telegram bots.
+- **PyTube**: A library for downloading YouTube videos.
+  
+Make sure to install these dependencies using `pip3 install telebot pytube` before running the bot.
 
-3. **View All Tasks (`va`)**: Displays all tasks.
 
-4. **View My Tasks (`vm`)**: Displays tasks assigned to the logged-in user.
+## Contributing
 
-5. **Generate Reports (`gr`)**: Admin-only option to generate reports.
+Contributions are welcome! If you have any suggestions, feature requests, or bug reports, please open an issue or submit a pull request.
 
-6. **Display Statistics (`ds`)**: Admin-only option to display statistics.
 
-7. **Exit (`e`)**: Exits the application.
+## License
 
-## Important Notes
-
-- Admin credentials: admin:password
-- Open the entire folder in VS Code for correct file access.
-
+This project is unlicensed.
